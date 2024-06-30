@@ -2,9 +2,8 @@
 @using TodoList.Models
 @rendermode InteractiveServer
 
-<h3>Todo (@todos.Count(todo => !todo.IsDone))</h3>
 
-<ul>
+@* <ul>
     @foreach (var todo in todos)
     {
         <li>
@@ -13,14 +12,95 @@
         </li>
 
     }
-</ul>
+</ul> *@
 
-<input @bind="newTodo" />
-<button @onclick="AddTodo">Add todo</button>
+@* <input @bind="newTodo" />
+<button @onclick="AddTodo">Add todo</button> *@
+
+
+<section class="vh-100" style="background-color: #eee;">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col col-lg-9 col-xl-7">
+        <div class="card rounded-3">
+          <div class="card-body p-4">
+
+            <h4 class="text-center my-3 pb-3">To Do App</h4>
+
+            <form class="row row-cols-lg-auto g-3 justify-content-center align-items-center mb-4 pb-2">
+              <div class="col-12">
+              @* <h3>Todo (@todos.Count(todo => !todo.IsDone))</h3> *@
+                <div data-mdb-input-init class="form-outline">
+                  <input @bind="newTodo" type="text" id="form1" class="form-control" />
+                  <label @onclick="AddTodo"  class="form-label" for="form1">Enter a task here</label>
+                </div>
+                                @foreach (var todo in todos)
+                                {
+                                    <input type="checkbox" @bind="todo.IsDone" />
+                                    <input @bind="todo.Title" />
+                                }
+              </div>
+
+              <div class="col-12">
+                <button @onclick="AddTodo" type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary">Save</button>
+              </div>
+
+              <div class="col-12">
+                <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-warning">Get tasks</button>
+              </div>
+            </form>
+
+             <table class="table mb-4">
+              <thead>
+                <tr>
+                  <th scope="col">No.</th>
+                  <th scope="col">Todo item</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">1</th>
+                  <td>Buy groceries for next week</td>
+                  <td>In progress</td>
+                  <td>
+                    <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-danger">Delete</button>
+                    <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-success ms-1">Finished</button>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">2</th>
+                  <td>Renew car insurance</td>
+                  <td>In progress</td>
+                  <td>
+                    <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-danger">Delete</button>
+                    <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-success ms-1">Finished</button>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">3</th>
+                  <td>Sign up for online course</td>
+                  <td>In progress</td>
+                  <td>
+                    <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-danger">Delete</button>
+                    <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-success ms-1">Finished</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table> 
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 @code {
     private List<TodoItem> todos = new();
     string newTodo = "";
+
 
     void AddTodo()
     {
@@ -29,6 +109,11 @@
             todos.Add(new TodoItem { Title = newTodo });
             newTodo = string.Empty;
         }
+    }
+
+    void DeleteItem()
+    {
+        todos.Remove();
     }
 
 }
