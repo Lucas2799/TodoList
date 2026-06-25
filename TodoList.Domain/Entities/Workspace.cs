@@ -1,4 +1,4 @@
-﻿namespace TodoList.Domain.Entities.Workspace;
+﻿namespace TodoList.Domain.Entities;
 public class Workspace
 {
     public Guid Id { get; private set; }
