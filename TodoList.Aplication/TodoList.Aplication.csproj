@@ -13,8 +13,22 @@
   <ItemGroup>
     <Folder Include="DependencyInjection\" />
     <Folder Include="DTOs\" />
-    <Folder Include="Features\" />
+    <Folder Include="Features\Projects\Comands\" />
+    <Folder Include="Features\Projects\Queries\" />
+    <Folder Include="Features\Sprints\Comands\" />
+    <Folder Include="Features\Sprints\Queries\" />
+    <Folder Include="Features\Tasks\Comands\" />
+    <Folder Include="Features\Tasks\Queries\" />
+    <Folder Include="Features\Users\Queries\" />
     <Folder Include="Behaviors\" />
+    <Folder Include="Features\Workspaces\Comands\" />
+    <Folder Include="Features\Workspaces\Queries\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="12.1.1" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" />
+    <PackageReference Include="MediatR" Version="14.1.0" />
   </ItemGroup>
 
 </Project>
