@@ -10,6 +10,9 @@ public class TaskItem : BaseEntity
     public string Description { get; private set; } = string.Empty;
     public Enums.TaskStatus Status { get; private set; }
     public TaskPriority Priority { get; private set; }
+    private readonly List<Comment> _comments = [];
+    public IReadOnlyCollection<Comment> Comments =>
+        _comments.AsReadOnly();
     public Guid AssignedUserId { get; private set; }
     public Guid ProjectId { get; private set; }
     public Guid? SprintId { get; private set; }
@@ -47,8 +50,44 @@ public class TaskItem : BaseEntity
         AssignedUserId = userId;
         UpdatedAt = DateTime.UtcNow;
     }
+    public void Unassign()
+    {
+        AssignedUserId = Guid.Empty;
+        UpdatedAt = DateTime.UtcNow;
+    }
+    public void MoveToSprint(Guid? sprintId)
+    {
+        if (sprintId == Guid.Empty)
+            throw new ArgumentException(
+                "Sprint inválida.");
+        SprintId = sprintId;
+        UpdatedAt = DateTime.UtcNow;
+    }
+    public void AddComment(Comment comment)
+    {
+        if (comment is null)
+            throw new ArgumentNullException(nameof(comment));
+
+        _comments.Add(comment);
+        UpdatedAt = DateTime.UtcNow;
+    }
+    public void MoveToProject(Guid projectid)
+    {
+        if(projectid == Guid.Empty)
+            throw new ArgumentException(
+                "Projeto inválido.");
+        if(Status == Enums.TaskStatus.Done)
+            throw new InvalidOperationException(
+                "Não é possível mover uma tarefa concluída para outro projeto.");
+
+        ProjectId = projectid;
+        UpdatedAt = DateTime.UtcNow;
+    }
     public void ChangeStatus(Enums.TaskStatus status)
     {
+        if (Status == status)
+            return;
+
         Status = status;
 
         UpdatedAt = DateTime.UtcNow;
@@ -57,6 +96,11 @@ public class TaskItem : BaseEntity
             CompletedAt = DateTime.UtcNow;
         else
             CompletedAt = null;
+    }
+    public void ChangePriority(TaskPriority priority)
+    {
+        Priority = priority;
+        UpdatedAt = DateTime.UtcNow;
     }
     public void Rename(
     string title,
